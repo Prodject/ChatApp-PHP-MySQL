@@ -297,7 +297,7 @@ class File
             $file_name = "$this->file_name";
             // file size in MB.
             $file_size = round(($this->file_size/1048576), 4);
-            return "<a href='messages.php?action=getFile&id=$id'>$file_name</a>, size: $file_size MB.";
+            return "<a href='download.php?id=$id'>$file_name</a>, size: $file_size MB.";
 
 
         } catch (mysqli_sql_exception $e) {
