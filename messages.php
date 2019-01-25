@@ -39,23 +39,19 @@
           $messages = $mapper->display_messages($room_id);
           $lm       = end($messages);
           show_messages($messages, $lm['time']);
-
         }
+
         else {
           while (true) {
             $room_id = $user->get_room();
             $messages = $mapper->display_messages($room_id);
             $lm       = end($messages);
 
-            if ($lm['time'] > $_SESSION['lmtime']) {
+            if ( ($lm['time'] > $_SESSION['lmtime']) || ($room_id != $_SESSION['room']) ) {
               show_messages($messages, $lm['time']);
               break;
             }
 
-            if ($room_id != $_SESSION['room']) {
-              show_messages($messages, $lm['time']);
-              break;
-            }
 
             sleep(2);
           }
