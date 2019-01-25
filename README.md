@@ -8,6 +8,6 @@ With a Mapper, the in-memory objects needn't know even that there's a database p
 they need no SQL interface code, and certainly no knowledge of the database schema.<br>
 
 Another design pattern that was taken into consideration was the Dependency injection. It is important to keep the classes independent from each other.<br>
-By passing the <b>instance</b> of the DB class to the UserMapper class, I was able to make the UserMapper totally independent from changes in the DB class.<br>
+For example, by passing the <b>instance</b> of the DB class to the UserMapper class, I was able to make the UserMapper totally independent from changes in the DB class.<br>
 
 
