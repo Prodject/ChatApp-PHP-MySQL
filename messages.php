@@ -1,6 +1,7 @@
 <?php
   require_once 'functions.php';
   require_once 'UserClass.php';
+  require_once 'const.php';
 
 
     $user_name = $_SESSION['user_name'];
@@ -34,17 +35,46 @@
         break;
 
         case "getMessages":
+        if (!$_SESSION['lmtime']) {
           $messages = $mapper->display_messages($room_id);
-          if ($messages) {
-            echo json_encode(array("result"=>true, "message"=>$messages));
+          $lm       = end($messages);
+          show_messages($messages, $lm['time']);
+
+        }
+        else {
+          while (true) {
+            $room_id = $user->get_room();
+            $messages = $mapper->display_messages($room_id);
+            $lm       = end($messages);
+
+            if ($lm['time'] > $_SESSION['lmtime']) {
+              show_messages($messages, $lm['time']);
+              break;
+            }
+
+            if ($room_id != $_SESSION['room']) {
+              show_messages($messages, $lm['time']);
+              break;
+            }
+
+            sleep(2);
           }
-          else
-          {
-            echo json_encode(array("result"=>false, "message"=>$messages));
-          }
+        }
         break;
 
     endswitch;
+
+
+function show_messages($messages, $last_mes_time) {
+  if ($messages) {
+    echo json_encode(array("result"=>true, "message"=>$messages));
+    $_SESSION['lmtime'] = $last_mes_time;
+  }
+  else {
+    echo json_encode(array("result"=>false, "message"=>DB_ERROR));
+  }
+}
+
 
 ?>
 

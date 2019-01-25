@@ -35,6 +35,11 @@
       }
     }
 
+    public function get_room() {
+      $this->room_id = $_SESSION['room'];
+      return $this->room_id;
+    }
+
 
 
 

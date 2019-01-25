@@ -1,13 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
 
 
-    // Get the messages, and refresh every second.
     get_messages();
-    // setInterval(function() { get_messages(); }, 40000);
-
-    // Get the rooms, and refresh every second.
     get_rooms();
-    // setInterval(function() { get_rooms(); }, 40000);
 
     // Create a new room.
     check_Input('create_room', 'create_room_btn');
@@ -15,11 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
         var room = document.querySelector('#create_room').value;
         // Initializes the input
         document.querySelector('#create_room').value = '';
-        // OPEN AJAX REQUEST
         fetchSendData('rooms.php', room, 'addRoom', 'error');
-        // Request rooms list.
         get_rooms();
-        get_messages();
       };
 
     // Add a new message.
@@ -28,26 +20,20 @@ document.addEventListener('DOMContentLoaded', () => {
         var text = document.querySelector('#message').value;
         // Initializes the input
         document.querySelector('#message').value = '';
-        // OPEN AJAX REQUEST
         fetchSendData('messages.php', text, 'addMessage', 'error');
-        // Request messages.
-        get_messages();
         scrollToBottom();
       };
     // Upload a file.
     document.querySelector('#submit_file').onclick = () => {
         var fileInput = document.querySelector('#upload_file');
         var file = fileInput.files[0];
-        // OPEN AJAX REQUEST
         fetchSendData('messages.php', file, 'addFile', 'error');
-        // Request messages.
-        get_messages();
         disappearing_title('loading_file', 'Uploading...', '');
         scrollToBottom();
       };
 
 });
-// Outside the DOM loading callback function.
+// Outside the DOM callback function.
 // Validate the inputs fields.
 function check_Input(input_id, submit_btn_id) {
     var input_element = document.getElementById(input_id);
@@ -66,8 +52,6 @@ function check_Input(input_id, submit_btn_id) {
 function changeRoom(room_id, room_name) {
     fetchSendData('rooms.php', room_id, 'changeRoom', 'error');
     document.getElementById("room_display").innerHTML = room_name;
-    // Display the messages of the room.
-    get_messages();
     get_rooms();
     scrollToBottom();
     return false;
@@ -131,6 +115,7 @@ async function disappearing_title(elementId, textBefore, textAfter) {
           if (json.result) {
             document.getElementById("messages").innerHTML = "";
             document.getElementById("error").innerHTML = "";
+
             for (var mes in json.message) {
               var TR = document.createElement("tr");
               document.getElementById("messages").appendChild(TR);
@@ -139,18 +124,23 @@ async function disappearing_title(elementId, textBefore, textAfter) {
                   time      : json.message[mes]['time'],
                   user_name : json.message[mes]['user_name'],
                   text      : json.message[mes]['text']
-              };
+                  };
+
               for (const [key, value] of Object.entries(details)) {
                 var TD = document.createElement("td");
                 TD.innerHTML = value;
                 TR.appendChild(TD);
               }
             }
+
+            get_messages();
           } else {
             document.getElementById('chat').innerHTML += json.message;
+            get_messages();
           }
       } catch(err) {
             document.getElementById('chat').innerHTML += err;
+            get_messages();
       }
   }
 
