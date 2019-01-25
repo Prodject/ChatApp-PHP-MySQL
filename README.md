@@ -1,6 +1,6 @@
 # Chat App PHP MySQL JavaScript
 Chat application with long polling using PHP, MySQL and JavaScript.<br>
-Includes: file uploads, channels, authentication, security issues that were taken into consideration, RESTful API, OOP, use of ES7.<br><br>
+Includes: Channels, authentication, file uploads and security issues that were taken into consideration, RESTful API, OOP, use of ES7.<br><br>
 <b>functions.php</b><br>
 Important design pattern that was implemented here is the Dependency Injection, which means the classes aren't dependent on each other.<br>
 By passing the <b>instance</b> of the DB class to the UserMapper class, I was able to make the UserMapper class totally independent of DB class changes.<br>
