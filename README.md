@@ -7,7 +7,7 @@ I used <b>UserMapper</b> to distinguish between database operations and the User
 With a Mapper, the in-memory objects needn't know even that there's a database present;<br>
 they need no SQL interface code, and certainly no knowledge of the database schema.<br>
 
-Another seperation that was taken into consideration is to make the classes independent from each other.<br>
+Another design pattern that was taken into consideration was the Dependency injection. It is important to keep the classes independent from each other.<br>
 By passing the <b>instance</b> of the DB class to the UserMapper class, I was able to make the UserMapper totally independent from changes in the DB class.<br>
 
 
