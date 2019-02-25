@@ -37,8 +37,8 @@ async function fetchSendData(username_input, password_input, action, pageToRedir
       }
 }
 
-// LOGIN area:
-if (document.getElementById("username_login")) {
+// LOGIN:
+if ( document.getElementById("username_login") ) {
     check_Input('username_login', 'login_btn');
     check_Input('password_login', 'login_btn');
 }
@@ -64,12 +64,12 @@ async function fetchRequestLogin() {
 document.getElementById('login_btn').onclick = () => {
     fetchSendData('username_login', 'password_login', 'login', 'index.php');
 };
-// REGISTER area:
+// REGISTER:
 document.getElementById('register_btn').onclick = () => {
     fetchSendData('username_register', 'password_register', 'register', 'login.php');
 };
 
-// INDEX area:
+// INDEX:
 async function fetchIndex() {
   let data = new FormData();
   data.append('action', 'index');

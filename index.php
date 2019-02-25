@@ -1,6 +1,6 @@
 <!-- Home Page -->
 <?php
-  require_once 'functions.php';
+  require_once 'mapper/functions.php';
   require_once 'header.php';
 
   if (!isset($_SESSION['user_name']))

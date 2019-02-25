@@ -1,6 +1,6 @@
 <?php
-  require_once 'functions.php';
-  require_once 'UserClass.php';
+  require_once 'mapper/functions.php';
+  require_once 'api/UserClass.php';
 
   $connection = new DB(DB_HOST, DB_NAME, DB_USER, DB_PASS);
   $mapper = new UserMapper($connection);
