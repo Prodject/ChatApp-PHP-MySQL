@@ -1,6 +1,4 @@
 // LOGIN:
-var { check_Input, fetchSendData } = require('../handler');
-
   check_Input('username_login', 'login_btn');
   check_Input('password_login', 'login_btn');
 

@@ -19,7 +19,7 @@
         <a href="register.php">Don't have a user? Register here.</a>
     </div>
 
-
+<script src="handler.js"></script>
 <script src="/js/login.js"></script>
 <script>
 fetchRequestLogin();

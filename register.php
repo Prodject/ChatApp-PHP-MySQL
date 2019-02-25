@@ -20,7 +20,7 @@
             <a href="login.html">Have a user? Login here.</a>
         </div>
 
-
-<script src="/js/register.js"></script>
+<script src="handler.js"></script>
+<script src="js/register.js"></script>
 </body>
 </html>
