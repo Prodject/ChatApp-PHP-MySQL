@@ -1,13 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
 
 
-    // Get the messages, and refresh every second.
     get_messages();
-    // setInterval(function() { get_messages(); }, 40000);
-
-    // Get the rooms, and refresh every second.
     get_rooms();
-    // setInterval(function() { get_rooms(); }, 40000);
 
     // Create a new room.
     check_Input('create_room', 'create_room_btn');
@@ -15,11 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
         var room = document.querySelector('#create_room').value;
         // Initializes the input
         document.querySelector('#create_room').value = '';
-        // OPEN AJAX REQUEST
         fetchSendData('rooms.php', room, 'addRoom', 'error');
-        // Request rooms list.
         get_rooms();
-        get_messages();
       };
 
     // Add a new message.
@@ -28,26 +20,20 @@ document.addEventListener('DOMContentLoaded', () => {
         var text = document.querySelector('#message').value;
         // Initializes the input
         document.querySelector('#message').value = '';
-        // OPEN AJAX REQUEST
         fetchSendData('messages.php', text, 'addMessage', 'error');
-        // Request messages.
-        get_messages();
         scrollToBottom();
       };
     // Upload a file.
     document.querySelector('#submit_file').onclick = () => {
         var fileInput = document.querySelector('#upload_file');
         var file = fileInput.files[0];
-        // OPEN AJAX REQUEST
         fetchSendData('messages.php', file, 'addFile', 'error');
-        // Request messages.
-        get_messages();
         disappearing_title('loading_file', 'Uploading...', '');
         scrollToBottom();
       };
 
 });
-// Outside the DOM loading callback function.
+// Outside the DOM callback function.
 // Validate the inputs fields.
 function check_Input(input_id, submit_btn_id) {
     var input_element = document.getElementById(input_id);
@@ -66,8 +52,6 @@ function check_Input(input_id, submit_btn_id) {
 function changeRoom(room_id, room_name) {
     fetchSendData('rooms.php', room_id, 'changeRoom', 'error');
     document.getElementById("room_display").innerHTML = room_name;
-    // Display the messages of the room.
-    get_messages();
     get_rooms();
     scrollToBottom();
     return false;
@@ -94,11 +78,8 @@ async function fetchSendData(pageToSend, dataToSend, action, elementId) {
       body: data
       });
       var json = await response.json();
-      if (json.result) {
-        document.getElementById(elementId).innerHTML = json.message;
-      } else {
-        document.getElementById(elementId).innerHTML = json.message;
-      }
+      document.getElementById(elementId).innerHTML = json.message;
+
   } catch(err) {
       document.getElementById(elementId).innerHTML = err;
   }
@@ -131,6 +112,7 @@ async function disappearing_title(elementId, textBefore, textAfter) {
           if (json.result) {
             document.getElementById("messages").innerHTML = "";
             document.getElementById("error").innerHTML = "";
+
             for (var mes in json.message) {
               var TR = document.createElement("tr");
               document.getElementById("messages").appendChild(TR);
@@ -139,18 +121,23 @@ async function disappearing_title(elementId, textBefore, textAfter) {
                   time      : json.message[mes]['time'],
                   user_name : json.message[mes]['user_name'],
                   text      : json.message[mes]['text']
-              };
+                  };
+
               for (const [key, value] of Object.entries(details)) {
                 var TD = document.createElement("td");
                 TD.innerHTML = value;
                 TR.appendChild(TD);
               }
             }
+
+            get_messages();
           } else {
             document.getElementById('chat').innerHTML += json.message;
+            get_messages();
           }
       } catch(err) {
             document.getElementById('chat').innerHTML += err;
+            get_messages();
       }
   }
 
@@ -187,84 +174,6 @@ async function get_rooms() {
           document.getElementById('error').innerHTML += err;
       }
 }
-
-
-
-// function fetchSendData(elementId, pageToSend, dataToSend) {
-//   var data = new FormData();
-//   data.append('data', dataToSend);
-//   fetch(pageToSend, {
-//     method: 'post',
-//     body: data
-//     })
-//   .then(handleResponse)
-//   .then(data => document.getElementById(elementId).innerHTML = data)
-//   .catch(error => document.getElementById(elementId).innerHTML = error);
-//   }
-
-// function fetchRequestData(elementId, pageToSend) {
-//   fetch(pageToSend)
-//   .then(handleResponse)
-//   .then(text => {
-//         document.getElementById(elementId).innerHTML = text;
-//       })
-//   .catch(error => document.getElementById(elementId).innerHTML = error);
-// }
-
-// function handleResponse(response) {
-//   var text = await response.text();
-//   .then(text => {
-//     if (response.ok) {
-//       return text;
-//     } else {
-//       return Promise.reject({
-//         status: response.status,
-//         statusText: response.statusText,
-//         err: text
-//       });
-//     }
-//   });
-// }
-
-// // AJAX POST request
-// function ajaxRequest(elementId, pageToSend, dataToSend) {
-//     var request;
-//     if (window.XMLHttpRequest) {
-//       // code for IE7+, Firefox, Chrome, Opera, Safari
-//       request = new XMLHttpRequest();
-//     } else {
-//       // code for IE6, IE5
-//       request = new ActiveXObject("Microsoft.XMLHTTP");
-//     }
-//     request.onreadystatechange = function() {
-//       if (this.readyState == 4 && this.status == 200) {
-//           document.getElementById(elementId).innerHTML = this.responseText;
-//       }
-//     };
-//     request.open("POST", pageToSend, true);
-//     var data = new FormData();
-//     data.append('data', dataToSend);
-//     request.send(data);
-// }
-
-// // AJAX GET request
-// function ajaxRequestGET(elementId, pageToSend) {
-//       var request;
-//       if (window.XMLHttpRequest) {
-//         // code for IE7+, Firefox, Chrome, Opera, Safari
-//         request = new XMLHttpRequest();
-//       } else {
-//         // code for IE6, IE5
-//         request = new ActiveXObject("Microsoft.XMLHTTP");
-//       }
-//       request.onreadystatechange = function() {
-//         if (this.readyState == 4 && this.status == 200) {
-//             document.getElementById(elementId).innerHTML = this.responseText;
-//         }
-//       };
-//       request.open("GET", pageToSend, true);
-//       request.send();
-// }
 
 
 
