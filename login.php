@@ -20,7 +20,7 @@
     </div>
 
 
-<script src="handler.js"></script>
+<script src="/js/login.js"></script>
 <script>
 fetchRequestLogin();
 </script>

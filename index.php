@@ -41,10 +41,9 @@
 
 
 
-<script src='handler.js'>
+<script src='/js/index.js'>
     window.onload = fetchIndex();
 </script>
-<script src='index.js'></script>
 
 </body>
 </html>

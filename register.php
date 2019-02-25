@@ -21,6 +21,6 @@
         </div>
 
 
-<script src="handler.js"></script>
+<script src="/js/register.js"></script>
 </body>
 </html>
