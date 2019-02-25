@@ -78,11 +78,8 @@ async function fetchSendData(pageToSend, dataToSend, action, elementId) {
       body: data
       });
       var json = await response.json();
-      if (json.result) {
-        document.getElementById(elementId).innerHTML = json.message;
-      } else {
-        document.getElementById(elementId).innerHTML = json.message;
-      }
+      document.getElementById(elementId).innerHTML = json.message;
+
   } catch(err) {
       document.getElementById(elementId).innerHTML = err;
   }
