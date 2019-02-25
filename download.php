@@ -1,6 +1,6 @@
 <?php
-  require_once 'functions.php';
-  require_once 'UserClass.php';
+  require_once '/mapper/fileClass.php';
+  require_once 'api/UserClass.php';
 
   if (isset($_GET['id']))
   {

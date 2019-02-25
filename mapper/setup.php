@@ -7,7 +7,7 @@
     <h1>Setup</h1>
 
 <?php
-    require_once 'functions.php';
+    require_once 'dbClass.php';
 
     createTable('users',
                 'username VARCHAR(30) UNIQUE,
