@@ -1,7 +1,7 @@
 <?php
 
   require_once '../mapper/dbClass.php';
-  require_once '../mapper/userClass.php';
+  require_once '../mapper/userMapper.php';
   require_once '../mapper/fileClass.php';
   require_once 'UserClass.php';
 

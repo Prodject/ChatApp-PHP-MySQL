@@ -1,5 +1,5 @@
 <?php
-  require_once 'mapper/userClass.php';
+  require_once 'api/userClass.php';
   require_once 'header.php';
 
 ?>

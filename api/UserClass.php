@@ -1,6 +1,5 @@
 <?php
 
-  require_once '../mapper/userClass.php';
 
   class User
   {
