@@ -100,46 +100,65 @@ async function disappearing_title(elementId, textBefore, textAfter) {
   document.getElementById(elementId).innerHTML = textAfter;
 }
 
-  async function get_messages() {
-      var data = new FormData();
-      data.append('action', "getMessages");
-      try {
-          var response = await fetch('messages.php', {
-          method: 'post',
-          body: data
-          });
-          var json = await response.json();
-          if (json.result) {
-            document.getElementById("messages").innerHTML = "";
-            document.getElementById("error").innerHTML = "";
-
-            for (var mes in json.message) {
-              var TR = document.createElement("tr");
-              document.getElementById("messages").appendChild(TR);
-
-              var details = {
-                  time      : json.message[mes]['time'],
-                  user_name : json.message[mes]['user_name'],
-                  text      : json.message[mes]['text']
-                  };
-
-              for (const [key, value] of Object.entries(details)) {
-                var TD = document.createElement("td");
-                TD.innerHTML = value;
-                TR.appendChild(TD);
-              }
-            }
-
-            get_messages();
-          } else {
-            document.getElementById('chat').innerHTML += json.message;
-            get_messages();
-          }
-      } catch(err) {
-            document.getElementById('chat').innerHTML += err;
-            get_messages();
+// Check for new messages.
+async function check_new_messages() {
+  var data = new FormData();
+  data.append('action', "checkMessages");
+  try {
+      var response = await fetch('messages.php', {
+      method: 'post',
+      body: data
+      });
+      var json = await response.json();
+      if (json.result) {
+        get_messages();
+        check_new_messages();
       }
+
+  } catch(err) {
+    console.log(err);
+    document.getElementById('chat').innerHTML += err;
+    check_new_messages();
   }
+}
+
+async function get_messages() {
+    var data = new FormData();
+    data.append('action', "getMessages");
+    try {
+        var response = await fetch('messages.php', {
+        method: 'post',
+        body: data
+        });
+        var json = await response.json();
+        if (json.result) {
+          document.getElementById("messages").innerHTML = "";
+          document.getElementById("error").innerHTML = "";
+
+          for (var mes in json.message) {
+            var TR = document.createElement("tr");
+            document.getElementById("messages").appendChild(TR);
+
+            var details = {
+                time      : json.message[mes]['time'],
+                user_name : json.message[mes]['user_name'],
+                text      : json.message[mes]['text']
+                };
+
+            for (const [key, value] of Object.entries(details)) {
+              var TD = document.createElement("td");
+              TD.innerHTML = value;
+              TR.appendChild(TD);
+            }
+          }
+
+        } else {
+          document.getElementById('chat').innerHTML += json.message;
+        }
+    } catch(err) {
+          document.getElementById('chat').innerHTML += err;
+    }
+}
 
 async function get_rooms() {
       var data = new FormData();

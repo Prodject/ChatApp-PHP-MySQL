@@ -17,7 +17,7 @@
         case "addMessage":
           $text = $_POST['data'];
           if ($user->add_message($text))
-            echo json_encode(array("result"=>true, "message"=>null));
+            echo json_encode(array("result"=>true));
           else
             echo json_encode(array("result"=>false, "message"=>DB_ERROR));
         break;
@@ -36,16 +36,42 @@
           }
         break;
 
+        case "checkMessages":
+          while (true) {
+            $room_id = $_SESSION['room'];
+            $last_message = $_SESSION['last_message'];
+            // If last_message doesn't exists, display messages.
+            if (!$last_message) {
+              echo json_encode(array("result"=>true));
+              break;
+            }
+            // If it does exist, check for new messages.
+            else {
+              $new_message = $mapper->check_new_messages($room_id, $last_message);
+              if ($new_message) {
+                echo json_encode(array("result"=>true));
+                break;
+              } else {
+                sleep(1);
+              }
+            }
+          }
+        break;
+
+
         case "getMessages":
+          $room_id = $_SESSION['room'];
           $messages = $mapper->display_messages($room_id);
           if ($messages) {
             echo json_encode(array("result"=>true, "message"=>$messages));
-          }
-          else
-          {
+            $last_message = end($messages);
+            $_SESSION['last_message'] = $last_message['time'];
+
+          } else {
             echo json_encode(array("result"=>false, "message"=>$messages));
           }
-        break;
+        break;          
+
 
         case "getFile":
           if (isset($_GET['id']))

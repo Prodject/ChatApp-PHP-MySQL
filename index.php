@@ -40,7 +40,7 @@
   </div>
 
 
-<script src="handler.js"></script>
+<script src="/js/handler.js"></script>
 <script src='/js/index.js'>
     window.onload = fetchIndex();
 </script>

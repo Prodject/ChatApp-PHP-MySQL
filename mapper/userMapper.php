@@ -107,6 +107,26 @@ class UserMapper
         }
     }
 
+    public function check_new_messages($room_id, $last_message)
+    {
+        try {
+            $result = $this->db->connection->prepare("SELECT name FROM messages WHERE room=? AND time>$last_message");
+            $result->bind_param('i', $room_id);
+            $result->execute();
+            $result->store_result();
+            if ($result->num_rows == 0) {
+              $result->close();
+              return false;
+            }
+            $result->close();
+            return true;
+              
+  
+          } catch (Exception $e) {
+            return $e->getMessage();
+          }
+    }
+
     public function display_messages($room_id)
     {
         try {
@@ -122,7 +142,7 @@ class UserMapper
             }
             $stmt->close();
             return $messages;
-        } catch (Exception $e) {
+        } catch (mysqli_sql_exception $e) {
             return $e->getMessage();
         }
     }
@@ -134,17 +154,19 @@ class UserMapper
           $result = $this->db->connection->prepare("SELECT name FROM rooms WHERE name=?");
           $result->bind_param('s', $room_name);
           $result->execute();
+          $result->store_result();
+          if ($result->num_rows == 0) {
+            $result->close();
+            return false;
+          }
+          $result->close();
+          return true;
+            
+
         } catch (Exception $e) {
           return $e->getMessage();
         }
-      $result->store_result();
-      if ($result->num_rows == 0) {
-        $result->close();
-        return false;
-      } else {
-        $result->close();
-        return true;
-      }
+
     }
 
     public function add_room($user_name, $room_name)
